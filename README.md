@@ -1,6 +1,6 @@
 # Live Pane
 
-A pin-able window for the church AV computer. It watches your YouTube channel and, the moment you go live, fills itself with that livestream.
+A pin-able window for the Central Church Bristol AV computer. It watches your YouTube channel and, the moment you go live, fills itself with that livestream.
 
 It is built for the leftover cell in a 2×2 grid that already shows three ProPresenter outputs. Live Pane sits on top of that gap, can live in the Start Menu like a normal app, and can open only while ProPresenter is running.
 
@@ -18,27 +18,17 @@ ProPresenter cannot reliably host a YouTube live player as one of its own output
 
 ## Run it on the AV PC (Windows)
 
-You do **not** need WSL. Origin’s CLI is macOS/Linux/WSL only; on a normal Windows box, get the project through the browser or Cursor Desktop, then run it with Node.
+### Get the project
 
-### Get the project (no WSL)
-
-**Easiest if you already use Cursor on that PC**
-
-1. Open [the codebase page](https://cursor.com/codebase/jonahling/youtube-stream-pane) (private — change visibility in settings there if you want).
-2. Open the repo in Cursor Desktop, or download a ZIP from that page if the UI offers one.
-3. Open a terminal in the project folder (PowerShell is fine).
-
-**Or with Git for Windows**
-
-1. Install [Git for Windows](https://git-scm.com/download/win).
+1. Install [Git for Windows](https://git-scm.com/download/win) if it is not already on the machine.
 2. In PowerShell:
 
 ```bat
-git clone https://origin.cursor.com/git/jonahling/youtube-stream-pane.git
+git clone https://github.com/Central-Church-Bristol/youtube-stream-pane.git
 cd youtube-stream-pane
 ```
 
-Sign in when Git asks (same Cursor account that owns the private repo).
+Or download a ZIP from [the GitHub repo](https://github.com/Central-Church-Bristol/youtube-stream-pane) and unzip it somewhere easy to find.
 
 ### Option A — run from the folder (good for first test)
 
