@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Roboto", Arial, Helvetica, sans-serif;
+  --color-stage: #070708;
+  --color-panel: #141417;
+  --color-panel-2: #1c1c21;
+  --color-ink: #f3efe6;
+  --color-mute: #8d8d97;
+  --color-live: #e11d2e;
+  --color-line: #2e2e35;
+  --color-good: #9ec5a0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--color-stage);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  user-select: none;
+}
+
+button,
+input,
+label,
+a {
+  user-select: auto;
+}
+
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+.led {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: #3a1418;
+  box-shadow: inset 0 0 0 1px #5c1d24;
+}
+
+.led-wait {
+  animation: led-breathe 2.6s ease-in-out infinite;
+}
+
+.led-on {
+  background: #e11d2e;
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--color-live) 70%, transparent),
+    0 0 2px #fff8;
+}
+
+@keyframes led-breathe {
+  0%,
+  100% {
+    background: #4a171c;
+    box-shadow: inset 0 0 0 1px #6a222a;
+  }
+  50% {
+    background: #e11d2e;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--color-live) 55%, transparent);
+  }
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    rgb(0 0 0 / 0.18) 2px 3px
+  );
+  pointer-events: none;
+}
+
+.yt-host,
+.yt-host iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
