@@ -13,6 +13,8 @@ dist
 dist-ssr
 release
 *.local
+# Built by scripts/build-launcher.ps1
+/Live Pane.exe
 
 # Python / venv (keep out even if unused)
 .venv/

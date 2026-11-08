@@ -33,6 +33,8 @@ function Write-Log {
 
 function Resolve-InstalledExe {
     if ($AppExe -and (Test-Path $AppExe)) { return $AppExe }
+    # The installed app comes before the project-folder launcher, which runs
+    # the development version.
     $candidates = @(
         (Join-Path $env:LOCALAPPDATA "Programs\live-pane\Live Pane.exe"),
         (Join-Path $env:LOCALAPPDATA "Programs\Live Pane\Live Pane.exe")
@@ -40,6 +42,8 @@ function Resolve-InstalledExe {
     foreach ($path in $candidates) {
         if (Test-Path $path) { return $path }
     }
+    $projectLauncher = Join-Path (Split-Path -Parent $PSScriptRoot) "Live Pane.exe"
+    if (Test-Path $projectLauncher) { return $projectLauncher }
     $lnk = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs\Live Pane.lnk"
     if (Test-Path $lnk) {
         $shell = New-Object -ComObject WScript.Shell

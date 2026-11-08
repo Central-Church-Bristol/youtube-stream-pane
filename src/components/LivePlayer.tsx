@@ -118,11 +118,9 @@ export function LivePlayer({
   return (
     <div className="relative h-full w-full bg-black">
       <div ref={boxRef} className="yt-host h-full w-full" />
-      <div className="pointer-events-none absolute top-3 left-3 z-10 flex items-center gap-2 rounded-full bg-black/55 px-2.5 py-1">
+      <div className="pointer-events-none absolute top-3 left-3 z-10 flex items-center gap-2 rounded-sm bg-header/90 px-2 py-1">
         <span className="led led-on" />
-        <span className="text-[11px] font-semibold tracking-[0.18em] text-white uppercase">
-          Live
-        </span>
+        <span className="text-[13px] text-ink">Live</span>
       </div>
     </div>
   )

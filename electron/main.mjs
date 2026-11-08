@@ -23,7 +23,7 @@ let localServer = null
 let watchTimer = null
 /** @type {ReturnType<typeof setInterval> | null} */
 let pinTimer = null
-let watchMode = process.argv.includes(WATCH_FLAG)
+let watchMode = process.argv.includes(WATCH_FLAG) || process.env.LIVE_PANE_WATCH === "1"
 let propresenterSeen = false
 /** @type {string | null} */
 let lastWatcherError = null
@@ -140,7 +140,7 @@ function createTray() {
   const png = iconPngPath()
   let image = fs.existsSync(png) ? nativeImage.createFromPath(png) : nativeImage.createEmpty()
   if (!image.isEmpty()) {
-    image = image.resize({ width: 16, height: 16, quality: "best" })
+    image = image.resize({ width: 32, height: 32, quality: "best" })
   }
   tray = new Tray(image)
   tray.setToolTip("Live Pane")
@@ -249,7 +249,7 @@ function clearLoginItems() {
 async function runWatcherScript(scriptName, extraArgs = []) {
   const script = path.join(scriptsDir(), scriptName)
   if (!fs.existsSync(script)) {
-    throw new Error(`Missing ${scriptName}. Rebuild the Windows app (npm.cmd run dist:win) so scripts ship with it.`)
+    throw new Error(`Missing ${scriptName} in ${scriptsDir()}.`)
   }
   const { stdout, stderr } = await execFileAsync(
     powershellExe(),
@@ -273,7 +273,12 @@ async function applyLaunchWithProPresenter(enabled) {
   try {
     if (enabled) {
       const extra = []
-      const exe = app.isPackaged ? process.execPath : resolveInstalledExeFromDisk()
+      // A development run points the watcher at the installed app when there
+      // is one, so services keep using the installed "Live Pane".
+      const launcher = path.join(__dirname, "..", "Live Pane.exe")
+      const exe = app.isPackaged
+        ? process.execPath
+        : (resolveInstalledExeFromDisk() ?? (fs.existsSync(launcher) ? launcher : null))
       if (exe) extra.push("-AppExe", exe)
       await runWatcherScript("install-propresenter-watcher.ps1", extra)
     } else {
@@ -324,7 +329,8 @@ async function createWindow() {
     height: bounds.height,
     minWidth: 320,
     minHeight: 180,
-    backgroundColor: "#070708",
+    backgroundColor: "#000000",
+    icon: iconPngPath(),
     frame: false,
     autoHideMenuBar: true,
     show: false,

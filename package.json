@@ -2,12 +2,13 @@
   "name": "live-pane",
   "productName": "Live Pane",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "author": "Central Church Bristol",
   "type": "module",
   "main": "electron/main.mjs",
   "scripts": {
     "dev": "vite --port 43147 --host 127.0.0.1 --strictPort",
-    "desktop": "cross-env LIVE_PANE_DEV=1 concurrently -k \"npm run dev\" \"wait-on http://127.0.0.1:43147 && cross-env LIVE_PANE_DEV=1 electron .\"",
+    "desktop": "cross-env LIVE_PANE_DEV=1 concurrently -k \"npm.cmd run dev\" \"wait-on http://127.0.0.1:43147 && cross-env LIVE_PANE_DEV=1 electron .\"",
     "build": "tsc -b && vite build",
     "start": "node server/http.mjs",
     "preview": "vite preview --port 43147 --host 127.0.0.1 --strictPort",
@@ -35,7 +36,7 @@
     "concurrently": "^10.0.5",
     "cross-env": "^10.1.0",
     "electron": "^44.0.0",
-    "electron-builder": "^26.15.3",
+    "electron-builder": "^26.18.0",
     "oxlint": "^1.79.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.2",
@@ -65,26 +66,19 @@
       }
     ],
     "win": {
-      "target": [
-        "portable",
-        "nsis"
-      ],
+      "target": ["nsis"],
+      "icon": "build/icon.ico",
       "signAndEditExecutable": true,
-      "signExecutable": false,
-      "icon": "build/icon.png",
       "artifactName": "LivePane-${version}-windows.${ext}"
     },
     "nsis": {
       "oneClick": true,
       "shortcutName": "Live Pane",
       "uninstallDisplayName": "Live Pane",
-      "createDesktopShortcut": true,
+      "createDesktopShortcut": false,
       "createStartMenuShortcut": true,
       "menuCategory": false,
       "runAfterFinish": true
-    },
-    "portable": {
-      "artifactName": "LivePane-${version}-portable.exe"
     }
   }
 }

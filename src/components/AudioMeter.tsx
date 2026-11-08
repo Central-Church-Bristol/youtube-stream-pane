@@ -96,10 +96,10 @@ export function AudioMeter({ active, muteSpeakers }: AudioMeterProps) {
             const value = slice / Math.max(1, end - start) / 255
             const barHeight = Math.max(2, value * height)
             gfx.fillStyle = silentSince != null && time - silentSince >= SILENCE_MS
-              ? "#e11d2e"
+              ? "#d01f1f"
               : value > 0.78
-                ? "#e11d2e"
-                : "#3ddc84"
+                ? "#f7821c"
+                : "#52c628"
             gfx.fillRect(i * (barWidth + gap), height - barHeight, barWidth, barHeight)
           }
         }
@@ -124,14 +124,14 @@ export function AudioMeter({ active, muteSpeakers }: AudioMeterProps) {
   if (!active) return null
 
   return (
-    <div className="pointer-events-none absolute bottom-3 left-3 z-[25] flex items-end gap-2 rounded-md bg-black/55 px-2 py-1.5">
+    <div className="pointer-events-none absolute bottom-3 left-3 z-[25] flex items-end gap-2 rounded-sm bg-inset/90 px-2 py-1.5">
       <canvas ref={canvasRef} width={72} height={22} className="block h-[22px] w-[72px]" />
       {failed ? (
-        <span className="text-[10px] font-medium tracking-wide text-mute uppercase">Meter off</span>
+        <span className="text-[11px] text-mute">Meter off</span>
       ) : silent ? (
-        <span className="text-[10px] font-medium tracking-wide text-live uppercase">No audio</span>
+        <span className="text-[11px] text-live">No audio</span>
       ) : (
-        <span className="text-[10px] font-medium tracking-wide text-white/80 uppercase">Audio</span>
+        <span className="text-[11px] text-ink">Audio</span>
       )}
     </div>
   )

@@ -14,17 +14,15 @@ export function SetupScreen({ initialValue, busy, error, onSubmit }: SetupScreen
   const [value, setValue] = useState(initialValue)
 
   return (
-    <div className="flex h-full flex-col bg-stage px-6 py-8 sm:px-10">
-      <div className="drag-region mb-8 flex items-center gap-2">
+    <div className="flex h-full flex-col bg-panel">
+      <div className="drag-region flex h-9 shrink-0 items-center gap-2 border-b border-black bg-header px-3">
         <div className="led led-wait" />
-        <span className="text-xs font-semibold tracking-[0.18em] text-mute uppercase">
-          Live Pane
-        </span>
+        <span className="text-[13px] text-ink">Live Pane</span>
       </div>
 
-      <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center">
+      <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-6 py-8 sm:px-10">
         <p className="text-sm text-mute">Fourth square of the 2×2</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="mt-2 text-2xl font-semibold text-ink">
           Show the YouTube livestream in the empty grid cell.
         </h1>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-mute">

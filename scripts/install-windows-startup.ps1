@@ -7,27 +7,16 @@ $ErrorActionPreference = "Stop"
 $startup = [Environment]::GetFolderPath("Startup")
 $shortcutPath = Join-Path $startup "Live Pane.lnk"
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$portable = Get-ChildItem -Path (Join-Path $projectRoot "release") -Filter "LivePane-*-portable.exe" -ErrorAction SilentlyContinue |
-    Select-Object -First 1
-$installed = Join-Path $env:LOCALAPPDATA "Programs\live-pane\Live Pane.exe"
-if (-not (Test-Path $installed)) {
-    $installed = Join-Path $env:LOCALAPPDATA "Programs\Live Pane\Live Pane.exe"
+$launcher = Join-Path $projectRoot "Live Pane.exe"
+if (-not (Test-Path $launcher)) {
+    throw "Missing $launcher. Run scripts\build-launcher.ps1 first."
 }
-$launcher = Join-Path $projectRoot "scripts\Launch-LivePane.bat"
 
 $shell = New-Object -ComObject WScript.Shell
 $shortcut = $shell.CreateShortcut($shortcutPath)
-
-if (Test-Path $installed) {
-    $shortcut.TargetPath = $installed
-    $shortcut.WorkingDirectory = Split-Path $installed
-} elseif ($portable) {
-    $shortcut.TargetPath = $portable.FullName
-    $shortcut.WorkingDirectory = $portable.DirectoryName
-} else {
-    $shortcut.TargetPath = $launcher
-    $shortcut.WorkingDirectory = $projectRoot
-}
+$shortcut.TargetPath = $launcher
+$shortcut.WorkingDirectory = $projectRoot
+$shortcut.IconLocation = "$launcher,0"
 
 $shortcut.WindowStyle = 7
 $shortcut.Description = "Church YouTube livestream pane for the ProPresenter 2x2 grid"

@@ -103,7 +103,7 @@ function Start-LivePane {
 
     $exe = Resolve-LivePaneExe
     if (-not $exe) {
-        Write-Log "ERROR: Live Pane.exe not found. Install from Start Menu (npm.cmd run dist:win) or turn the setting on once from the app."
+        Write-Log "ERROR: Live Pane.exe not found. Put the Start Menu shortcut on Live Pane.exe in the project folder."
         return $null
     }
 
@@ -124,7 +124,8 @@ function Stop-LivePaneProcess {
     }
     foreach ($proc in $procs) {
         Write-Log ("Closing Live Pane pid {0}." -f $proc.Id)
-        Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+        $taskkill = Join-Path $env:SystemRoot "System32\taskkill.exe"
+        & $taskkill /PID $proc.Id /T /F 2>$null | Out-Null
     }
 }
 

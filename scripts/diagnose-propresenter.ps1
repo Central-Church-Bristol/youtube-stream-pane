@@ -39,6 +39,7 @@ if ($helpers) {
 
 Show-Heading "Live Pane.exe"
 $candidates = @(
+    (Join-Path (Split-Path -Parent $PSScriptRoot) "Live Pane.exe"),
     (Join-Path $env:LOCALAPPDATA "Programs\live-pane\Live Pane.exe"),
     (Join-Path $env:LOCALAPPDATA "Programs\Live Pane\Live Pane.exe")
 )

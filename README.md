@@ -12,7 +12,7 @@ ProPresenter cannot reliably host a YouTube live player as one of its own output
 - **Auto-switch** to the current livestream when YouTube says you are live.
 - **Always on top** so it stays in the empty square over ProPresenter.
 - **Snap to grid** — top-left, top-right, bottom-left, bottom-right of any monitor.
-- **Start Menu app** via the Windows installer (`npm run dist:win`).
+- **A normal Windows app** — installed from `release\`, listed as **Live Pane** in the Start Menu and Task Manager.
 - **Start when ProPresenter runs** — waits in the background, opens with ProPresenter, quits when ProPresenter quits.
 - **Muted by default** so the confidence screen does not fight house audio.
 
@@ -37,36 +37,42 @@ Or download a ZIP from [the GitHub repo](https://github.com/Central-Church-Brist
 
 ```bat
 npm install
-npm run desktop
+npm.cmd run desktop
 ```
 
 3. Paste your church YouTube URL, `@handle`, or channel ID (or use **Test with NASA** first).
 4. Drag the window onto the multiview monitor. Open settings (move the mouse, click the gear) and snap it to the empty quadrant. Resize the edges if your gap is not a perfect half.
 5. Leave **Always on top** on.
 
-`scripts\Launch-LivePane.bat` starts the same window by hand. If PowerShell blocks `npm`, use `npm.cmd` instead.
+`scripts\Launch-LivePane.bat` starts it by hand (once Live Pane is installed, it opens the installed app instead). If PowerShell blocks `npm`, use `npm.cmd` instead.
 
-### Option B — install as a normal Start Menu app
+### Option B — install it as an app (what the AV PC uses)
+
+Windows then lists it as **Live Pane**, with its own icon, in the Start Menu, Task Manager and the taskbar. In the project folder:
 
 ```bat
 npm.cmd install
 npm.cmd run dist:win
 ```
 
-Then run the installer in `release\` (`LivePane-*-windows.exe`). That adds **Live Pane** to the Start Menu (and a desktop shortcut).
-
-Or, from the project folder without the installer:
+That builds `release\LivePane-<version>-windows.exe`. Quit Live Pane (tray icon → **Quit Live Pane**), then install it:
 
 ```bat
-powershell -ExecutionPolicy Bypass -File scripts\install-start-menu.ps1
+powershell -ExecutionPolicy Bypass -File scripts\install-app.ps1
 ```
+
+The script runs the newest installer, removes leftovers from older setups, and points the ProPresenter watcher at the installed app. Live Pane opens when it finishes, with its saved channel and position.
+
+The installed app doesn't change when the code in this folder changes. After a change, build and install again.
+
+`Live Pane.exe` in this folder (from `scripts\build-launcher.ps1`) opens the installed app. Before Live Pane is installed, or when started with `--dev`, it runs the development version from source (`npm.cmd run desktop`), which Windows lists as "Electron".
 
 ### Start only when ProPresenter is running
 
-**Packaged app:** open Live Pane → settings → turn on **Start when ProPresenter runs**.  
+Open Live Pane → settings → turn on **Start when ProPresenter runs**.  
 A helper registers at login, stays quiet until ProPresenter opens, then shows Live Pane. When ProPresenter quits, Live Pane quits too.
 
-**From the project folder** (also fine before you install the `.exe`):
+From the project folder:
 
 ```bat
 powershell -ExecutionPolicy Bypass -File scripts\install-propresenter-watcher.ps1
@@ -86,8 +92,8 @@ If ProPresenter-linked launch is on, quitting ProPresenter also closes Live Pane
 ## Browser-only preview
 
 ```bat
-npm install
-npm run dev
+npm.cmd install
+npm.cmd run dev
 ```
 
 Open http://127.0.0.1:43147 — same viewer, without always-on-top or quadrant snap. Useful while designing. After `npm run build`, `npm start` serves the production build on the same port.
@@ -114,10 +120,11 @@ There is a **Test with NASA** button on first launch so you can confirm the pane
 ## Developing
 
 ```bat
-npm run dev          # web UI
-npm run desktop      # UI + always-on-top Electron window
-npm run lint
-npm run build
+npm.cmd run dev       # web UI
+npm.cmd run desktop   # UI + always-on-top window
+npm.cmd run lint
+npm.cmd run build
+npm.cmd run dist:win  # installer in release\
 ```
 
 Live status is checked locally against the public YouTube channel page. No API key is required.

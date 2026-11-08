@@ -76,19 +76,23 @@ export function createLivePaneServer() {
 export function listenOnPort(server, preferredPort) {
   return new Promise((resolve, reject) => {
     const tryPort = (port, attemptsLeft) => {
+      const onListening = () => {
+        server.off("error", onError)
+        resolve(port)
+      }
       const onError = (error) => {
+        // Drop this port's listener, or it would also fire (with the wrong
+        // port) once a later port starts listening.
+        server.off("listening", onListening)
         if (error.code === "EADDRINUSE" && attemptsLeft > 0) {
-          server.off("error", onError)
           tryPort(port + 1, attemptsLeft - 1)
           return
         }
         reject(error)
       }
       server.once("error", onError)
-      server.listen(port, "127.0.0.1", () => {
-        server.off("error", onError)
-        resolve(port)
-      })
+      server.once("listening", onListening)
+      server.listen(port, "127.0.0.1")
     }
     tryPort(preferredPort, 8)
   })

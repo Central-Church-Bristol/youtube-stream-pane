@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process"
-import { cp, mkdir, readdir, rm } from "node:fs/promises"
+import { cp, mkdir, readdir, readFile, rm } from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -8,6 +8,7 @@ const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..")
 const releaseDir = path.join(root, "release")
 const tempDir = path.join(os.tmpdir(), `live-pane-build-${process.pid}`)
 const tempDirArg = tempDir.replaceAll("\\", "/")
+const { version } = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"))
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
@@ -33,4 +34,4 @@ for (const name of names) {
 }
 await rm(tempDir, { recursive: true, force: true })
 
-console.log(`\nInstaller is ready:\n  ${path.join(releaseDir, "LivePane-1.0.0-windows.exe")}\nRun that file to replace the installed app.`)
+console.log(`\nInstaller is ready:\n  ${path.join(releaseDir, `LivePane-${version}-windows.exe`)}\nQuit Live Pane, then run that file to install or update it.`)

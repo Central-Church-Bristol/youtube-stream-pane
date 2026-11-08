@@ -52,19 +52,16 @@ export function SettingsPanel({
   if (!open) return null
 
   return (
-    <div className="absolute inset-0 z-40 flex justify-end bg-black/45">
-      <aside className="no-drag flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-line bg-panel p-5 shadow-2xl">
-        <div className="mb-5 flex items-center justify-between">
-          <div>
-            <p className="text-xs tracking-[0.18em] text-mute uppercase">Settings</p>
-            <h2 className="text-lg font-semibold">Live Pane</h2>
-          </div>
+    <div className="absolute inset-0 z-40 flex justify-end bg-black/55">
+      <aside className="no-drag flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-black bg-panel">
+        <div className="flex items-center justify-between border-b border-black bg-header px-4 py-2">
+          <h2 className="text-[15px] font-semibold text-ink">Settings</h2>
           <Button size="icon" variant="ghost" onClick={onClose} title="Close settings">
             <X className="size-4" />
           </Button>
         </div>
 
-        <section className="space-y-3 border-b border-line pb-5">
+        <section className="space-y-3 border-b border-line px-4 py-4">
           <Label htmlFor="settings-channel">YouTube channel</Label>
           <p className="text-xs text-mute">{channelLabel || "Not connected"}</p>
           <Input
@@ -74,7 +71,7 @@ export function SettingsPanel({
             placeholder="@yourchurch"
           />
           <Button
-            variant="outline"
+            variant="default"
             size="sm"
             onClick={() => onChangeChannel(channelDraft.trim())}
             disabled={!channelDraft.trim()}
@@ -83,7 +80,7 @@ export function SettingsPanel({
           </Button>
         </section>
 
-        <section className="space-y-4 border-b border-line py-5">
+        <section className="space-y-4 border-b border-line px-4 py-4">
           <ToggleRow
             label="Mute livestream"
             hint="Stops this PC from playing YouTube sound. Keep on when the room already has house audio. The audio meter can still watch the stream."
@@ -112,7 +109,7 @@ export function SettingsPanel({
                 max={60}
                 value={settings.pollSeconds}
                 onChange={(event) => onChange({ pollSeconds: Number(event.target.value) })}
-                className="w-full accent-live"
+                className="w-full accent-blue"
               />
               <span className="w-12 text-right text-sm text-mute">{settings.pollSeconds}s</span>
             </div>
@@ -120,7 +117,7 @@ export function SettingsPanel({
         </section>
 
         {desktop ? (
-          <section className="space-y-4 border-b border-line py-5">
+          <section className="space-y-4 border-b border-line px-4 py-4">
             <ToggleRow
               label="Always on top"
               hint="Keeps this pane above ProPresenter, including when stage screens open later. Does not steal keyboard focus."
@@ -136,9 +133,7 @@ export function SettingsPanel({
               hint={
                 windowState?.watcherError
                   ? `Could not install the helper: ${windowState.watcherError}`
-                  : windowState && !windowState.packaged
-                    ? "Uses the installed Start Menu app if present. A helper waits after sign-in (Live Pane itself does not). Open ProPresenter → Live Pane appears; quit ProPresenter → Live Pane closes."
-                    : "A helper waits after you sign in — Live Pane itself does not. When ProPresenter.exe opens, Live Pane appears; when ProPresenter quits, Live Pane closes. Log: %LOCALAPPDATA%\\Live Pane\\watcher.log"
+                  : "A helper waits after you sign in. Live Pane itself does not. When ProPresenter opens, Live Pane appears; when ProPresenter quits, Live Pane closes."
               }
               checked={windowState?.launchWithProPresenter ?? false}
               onCheckedChange={(checked) => {
@@ -152,7 +147,7 @@ export function SettingsPanel({
               {windowState && windowState.displays.length > 1 ? (
                 <select
                   id="display"
-                  className="mt-2 h-10 w-full rounded-lg border border-line bg-stage px-3 text-sm"
+                  className="mt-2 h-9 w-full rounded-sm border border-white/25 bg-inset px-3 text-[13px] text-ink"
                   value={displayId}
                   onChange={(event) => setDisplayId(Number(event.target.value))}
                 >
@@ -172,7 +167,7 @@ export function SettingsPanel({
                     type="button"
                     onClick={() => void window.livePane?.snapQuadrant(quadrant.id, displayId)}
                     className={cn(
-                      "rounded-lg border border-line bg-stage px-3 py-3 text-left text-sm hover:border-ink/30 hover:bg-panel-2",
+                      "rounded-sm border border-white/20 bg-inset px-3 py-2.5 text-left text-[13px] text-ink hover:border-blue hover:bg-panel-2",
                     )}
                   >
                     {quadrant.label}
@@ -186,7 +181,7 @@ export function SettingsPanel({
             </div>
           </section>
         ) : (
-          <section className="space-y-2 border-b border-line py-5 text-sm text-mute">
+          <section className="space-y-2 border-b border-line px-4 py-4 text-[13px] text-mute">
             <p>
               Browser preview: snap this window into the empty cell yourself. The desktop app adds
               always-on-top, quadrant snap, and ProPresenter-linked launch.
@@ -194,7 +189,7 @@ export function SettingsPanel({
           </section>
         )}
 
-        <p className="mt-auto pt-5 text-xs text-mute">
+        <p className="mt-auto px-4 pt-4 pb-4 text-xs text-mute">
           Live Pane sits in the system tray, not the taskbar. Click the tray icon and choose Quit
           Live Pane when you want the cell back. If ProPresenter-linked launch is on, quitting
           ProPresenter also closes Live Pane.
@@ -218,7 +213,7 @@ function ToggleRow({
   return (
     <div className="flex items-start justify-between gap-4">
       <div>
-        <p className="text-sm font-medium">{label}</p>
+        <p className="text-[13px] text-ink">{label}</p>
         <p className="mt-1 text-xs leading-relaxed text-mute">{hint}</p>
       </div>
       <Switch checked={checked} onCheckedChange={onCheckedChange} />

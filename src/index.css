@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Roboto", Arial, Helvetica, sans-serif;
-  --color-stage: #070708;
-  --color-panel: #141417;
-  --color-panel-2: #1c1c21;
-  --color-ink: #f3efe6;
-  --color-mute: #8d8d97;
-  --color-live: #e11d2e;
-  --color-line: #2e2e35;
-  --color-good: #9ec5a0;
+  --font-sans: "Segoe UI", sans-serif;
+  --color-stage: #000000;
+  --color-panel: #454545;
+  --color-panel-2: #565656;
+  --color-header: #424242;
+  --color-inset: #232323;
+  --color-ink: #e3e3e3;
+  --color-mute: #9a9a9a;
+  --color-live: #d01f1f;
+  --color-blue: #007aff;
+  --color-line: #2a2a2a;
+  --color-good: #52c628;
 }
 
 html,
@@ -17,17 +20,19 @@ body,
 #root {
   height: 100%;
   margin: 0;
-  background: var(--color-stage);
+  background: #000000;
   color: var(--color-ink);
   font-family: var(--font-sans);
   overflow: hidden;
   user-select: none;
+  color-scheme: dark;
 }
 
 button,
 input,
 label,
-a {
+a,
+select {
   user-select: auto;
 }
 
@@ -40,11 +45,10 @@ a {
 }
 
 .led {
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-radius: 999px;
-  background: #3a1418;
-  box-shadow: inset 0 0 0 1px #5c1d24;
+  background: #5a5a5a;
 }
 
 .led-wait {
@@ -52,31 +56,46 @@ a {
 }
 
 .led-on {
-  background: #e11d2e;
-  box-shadow:
-    0 0 16px color-mix(in srgb, var(--color-live) 70%, transparent),
-    0 0 2px #fff8;
+  background: #d01f1f;
+  box-shadow: 0 0 8px #d01f1f99;
 }
 
 @keyframes led-breathe {
   0%,
   100% {
-    background: #4a171c;
-    box-shadow: inset 0 0 0 1px #6a222a;
+    background: #4a4a4a;
   }
   50% {
-    background: #e11d2e;
-    box-shadow: 0 0 14px color-mix(in srgb, var(--color-live) 55%, transparent);
+    background: #8d8d8d;
   }
 }
 
-.scanlines {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 2px,
-    rgb(0 0 0 / 0.18) 2px 3px
-  );
-  pointer-events: none;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6d6d6d #454545;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #454545;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6d6d6d;
+  border: 2px solid #454545;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8a8a8a;
+}
+
+::selection {
+  background: #007aff66;
+  color: #ffffff;
 }
 
 .yt-host,

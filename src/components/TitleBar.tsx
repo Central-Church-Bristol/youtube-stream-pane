@@ -26,7 +26,7 @@ export function TitleBar({
   return (
     <div
       className={cn(
-        "absolute inset-x-0 top-0 z-30 flex h-11 items-center justify-between bg-gradient-to-b from-black/80 via-black/45 to-transparent px-2 transition-opacity duration-200",
+        "absolute inset-x-0 top-0 z-30 flex h-9 items-center justify-between border-b border-black bg-header px-2 transition-opacity duration-200",
         visible ? "opacity-100" : "opacity-0",
       )}
       onMouseEnter={onPointerActive}
@@ -35,7 +35,7 @@ export function TitleBar({
     >
       <div className="drag-region flex min-w-0 flex-1 items-center gap-2 px-1">
         <div className={cn("led", live ? "led-on" : "led-wait")} />
-        <span className="truncate text-xs font-medium tracking-wide text-ink/90">
+        <span className="truncate text-[13px] text-ink">
           Live Pane
           {channelLabel ? <span className="text-mute"> · {channelLabel}</span> : null}
         </span>
